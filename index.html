@@ -372,7 +372,7 @@ const CONFIG = {
 };
 
 /* ============================================================
-   Data contoh
+   Data contoh (Mendukung link YouTube, Instagram, TikTok, Shopee/MP4)
    ============================================================ */
 const DEMO_PRODUCTS = [
   {
@@ -381,7 +381,7 @@ const DEMO_PRODUCTS = [
     harga: "499.000",
     deskripsi: "Mengoreng tanpa minyak, kapasitas pas untuk keluarga, daya hemat 650W.",
     alasan: "Memasak lebih sehat, wadah anti lengket dan sangat mudah dibersihkan.",
-    video: "", tokopedia: "#", shopee: "#", tiktok: "#"
+    video: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", tokopedia: "#", shopee: "#", tiktok: "#"
   },
   {
     nama: "Smart LED Bulb WiFi RGB 9W", kategori: "Elektronik",
@@ -412,14 +412,6 @@ const DEMO_PRODUCTS = [
 /* ============================================================
    Util
    ============================================================ */
-function toEmbedUrl(url){
-  if(!url) return null;
-  url = url.trim();
-  const yt = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([a-zA-Z0-9_-]{6,})/);
-  if(yt) return "https://www.youtube.com/embed/" + yt[1];
-  return url;
-}
-
 function formatHarga(h){
   if(!h) return "Hubungi penjual";
   const clean = String(h).replace(/[^0-9]/g,"");
@@ -460,14 +452,37 @@ function buyButton(url, cls, label){
   return `<a class="buy-btn ${cls}" href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
 }
 
-function buildPlayer(url){
-  const embed = toEmbedUrl(url);
-  if(!embed) return "";
-  if(/\.(mp4|webm|ogg)(\?.*)?$/i.test(url)){
-    return `<video src="${embed}" controls autoplay playsinline></video>`;
+/* Pemutar Video Multi-Platform (YouTube, Instagram, TikTok, Shopee Video / Direct MP4) */
+function buildPlayer(rawUrl){
+  if(!rawUrl) return "";
+  const url = rawUrl.trim();
+
+  // 1. File MP4 / WebM / Ogg Langsung (Termasuk CDN Shopee Video / TikTok MP4)
+  if(/\.(mp4|webm|ogg)(\?.*)?$/i.test(url) || url.includes(".mp4")){
+    return `<video src="${url}" controls autoplay playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
   }
-  const sep = embed.indexOf("?") > -1 ? "&" : "?";
-  return `<iframe src="${embed}${sep}autoplay=1&rel=0" title="Video promosi produk" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+
+  // 2. YouTube & YouTube Shorts
+  const ytMatch = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([a-zA-Z0-9_-]{6,})/);
+  if(ytMatch){
+    return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0" title="Video YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
+  }
+
+  // 3. Instagram (Reels, Posts, IGTV)
+  const igMatch = url.match(/instagram\.com\/(?:p|reel|tv)\/([a-zA-Z0-9_-]+)/);
+  if(igMatch){
+    return `<iframe src="https://www.instagram.com/p/${igMatch[1]}/embed/" title="Video Instagram" allowtransparency="true" allowfullscreen style="width:100%;height:100%;border:0;background:#000;"></iframe>`;
+  }
+
+  // 4. TikTok Video (Format link: tiktok.com/@user/video/12345678)
+  const ttMatch = url.match(/tiktok\.com\/.*\/video\/(\d+)/) || url.match(/tiktok\.com\/v\/(\d+)/);
+  if(ttMatch){
+    return `<iframe src="https://www.tiktok.com/embed/v2/${ttMatch[1]}" title="Video TikTok" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
+  }
+
+  // 5. Fallback iframe untuk link video/web umum lainnya
+  const sep = url.indexOf("?") > -1 ? "&" : "?";
+  return `<iframe src="${url}${sep}autoplay=1" title="Video Promosi" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
 }
 
 function cardHtml(p){
