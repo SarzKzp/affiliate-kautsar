@@ -187,20 +187,34 @@
   }
   .card-img{position:relative;aspect-ratio:4/3;background:var(--surface-2);overflow:hidden;}
   .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
-  .card-img iframe,.card-img video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover;background:#000;}
-  .play-badge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(13,17,23,0.28);}
-  .play-badge button{
-    width:50px;height:50px;border-radius:50%;background:rgba(13,17,23,0.78);
-    border:1px solid rgba(255,255,255,0.28);color:var(--accent);font-size:16px;
-    cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0 0 0 3px;
+  
+  /* Link Direct Overlay untuk Video */
+  .play-badge{
+    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;background:rgba(13,17,23,0.35);text-decoration:none;
+    transition:background .2s;
+  }
+  .play-badge:hover{
+    background:rgba(13,17,23,0.55);
+  }
+  .play-badge .play-btn-icon{
+    width:52px;height:52px;border-radius:50%;background:rgba(13,17,23,0.85);
+    border:1px solid rgba(255,255,255,0.3);color:var(--accent);font-size:18px;
+    display:flex;align-items:center;justify-content:center;padding-left:3px;
     transition:transform .15s, background .15s, color .15s;
+    box-shadow:0 4px 12px rgba(0,0,0,0.4);
   }
-  .play-badge button:hover{background:var(--accent);color:#191204;transform:scale(1.08);}
+  .play-badge:hover .play-btn-icon{
+    background:var(--accent);color:#191204;transform:scale(1.1);
+  }
   .play-badge .label{
-    position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
-    font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#fff;
-    background:rgba(13,17,23,0.65);padding:3px 9px;border-radius:12px;letter-spacing:0.02em;
+    position:absolute;bottom:12px;left:50%;transform:translateX(-50%);
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:#fff;
+    background:rgba(13,17,23,0.8);padding:4px 12px;border-radius:12px;
+    letter-spacing:0.02em;border:1px solid rgba(255,255,255,0.15);
+    white-space:nowrap;
   }
+
   .tag-stamp{
     position:absolute;top:12px;left:12px;background:rgba(13,17,23,0.85);
     border:1px solid var(--border);color:var(--accent);
@@ -240,17 +254,6 @@
   .buy-btn.shopee:hover{background:var(--shopee);color:#210900;}
   .buy-btn.tiktok{color:var(--tiktok);border-color:rgba(255,255,255,0.25);}
   .buy-btn.tiktok:hover{background:var(--tiktok);color:#000;}
-
-  /* Player Fallback Box */
-  .fallback-player{
-    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
-    justify-content:center;padding:16px;background:#0d1117;text-align:center;gap:10px;
-  }
-  .fallback-player p{font-size:12px;color:var(--muted);margin:0;}
-  .fallback-player a{
-    display:inline-block;padding:8px 14px;background:var(--accent);color:#191204;
-    font-size:12px;font-weight:600;border-radius:6px;text-decoration:none;
-  }
 
   /* ---------- States ---------- */
   .state{padding:60px 20px;text-align:center;color:var(--muted);grid-column:1/-1;}
@@ -428,43 +431,14 @@ function renderHeroVideo(){
   `;
 }
 
-/* ============================================================
-   Pemutar Video Multi-Platform (Peningkatan Anti-Block)
-   ============================================================ */
-function buildPlayer(rawUrl){
-  if(!rawUrl) return "";
-  const url = rawUrl.trim();
-
-  // 1. YouTube & YouTube Shorts
-  const ytMatch = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([a-zA-Z0-9_-]{6,})/);
-  if(ytMatch){
-    return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0" title="Video YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
-  }
-
-  // 2. Instagram (Posts & Reels)
-  const igMatch = url.match(/instagram\.com\/(?:p|reel|tv)\/([a-zA-Z0-9_-]+)/);
-  if(igMatch){
-    return `<iframe src="https://www.instagram.com/p/${igMatch[1]}/embed/" title="Video Instagram" allowtransparency="true" allowfullscreen style="width:100%;height:100%;border:0;background:#000;"></iframe>`;
-  }
-
-  // 3. TikTok Web Video ID
-  const ttMatch = url.match(/tiktok\.com\/.*\/video\/(\d+)/) || url.match(/tiktok\.com\/v\/(\d+)/);
-  if(ttMatch){
-    return `<iframe src="https://www.tiktok.com/embed/v2/${ttMatch[1]}" title="Video TikTok" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
-  }
-
-  // 4. File MP4 / WebM Langsung
-  if(/\.(mp4|webm|ogg)(\?.*)?$/i.test(url)){
-    return `<video src="${url}" controls autoplay playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
-  }
-
-  // 5. Fallback untuk Link Pendek (vt.tiktok.com, Shopee Video, Instagram Share Link)
-  return `
-    <div class="fallback-player">
-      <p>Video ini berada di platform eksternal/aplikasi.</p>
-      <a href="${url}" target="_blank" rel="noopener noreferrer">Tonton Video Langsung ↗</a>
-    </div>
-  `;
+/* Detect platform label for video link button */
+function getVideoLabel(url){
+  const lower = url.toLowerCase();
+  if(lower.includes("tiktok.com")) return "Tonton di TikTok ↗";
+  if(lower.includes("instagram.com")) return "Tonton di Instagram ↗";
+  if(lower.includes("shopee") || lower.includes("shp.ee")) return "Tonton Shopee Video ↗";
+  if(lower.includes("youtube.com") || lower.includes("youtu.be")) return "Tonton di YouTube ↗";
+  return "Tonton Video Promosi ↗";
 }
 
 /* ============================================================
@@ -486,14 +460,19 @@ function cardHtml(p){
 
   return `
     <div class="card" data-kategori="${p.kategori || 'Lainnya'}">
-      <div class="card-img" ${rawVideo ? `data-video="${encodeURIComponent(rawVideo)}"` : ""}>
+      <div class="card-img">
         <img src="${imgSrc}" 
              alt="${p.nama}" 
              loading="lazy" 
              referrerpolicy="no-referrer"
              onerror="this.onerror=null;this.src='${defaultImg}';">
         ${p.kategori ? `<span class="tag-stamp">${p.kategori}</span>` : ""}
-        ${rawVideo ? `<div class="play-badge"><button type="button" aria-label="Putar video promosi ${p.nama}">▶</button><span class="label">Video promosi</span></div>` : ""}
+        ${rawVideo ? `
+          <a href="${rawVideo}" target="_blank" rel="noopener noreferrer" class="play-badge" title="Buka video promosi ${p.nama}">
+            <div class="play-btn-icon">▶</div>
+            <span class="label">${getVideoLabel(rawVideo)}</span>
+          </a>
+        ` : ""}
       </div>
       <div class="card-body">
         <h3>${p.nama}</h3>
@@ -608,15 +587,6 @@ function loadProducts(){
 document.getElementById("searchInput").addEventListener("input", (e) => {
   SEARCH_QUERY = e.target.value;
   renderGrid();
-});
-
-document.getElementById("grid").addEventListener("click", (e) => {
-  const btn = e.target.closest(".play-badge button");
-  if(!btn) return;
-  const box = btn.closest(".card-img");
-  const raw = decodeURIComponent(box.dataset.video || "");
-  if(!raw) return;
-  box.innerHTML = buildPlayer(raw);
 });
 
 /* ============================================================
