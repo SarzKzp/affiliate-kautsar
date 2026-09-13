@@ -12,37 +12,44 @@
 
 <style>
   :root{
-    --bg:#0d1117;
-    --bg-alt:#10151f;
-    --surface:#171d29;
-    --surface-2:#1e2636;
-    --border:#2a3244;
-    --text:#edeff3;
-    --muted:#93a0b4;
+    --bg:#0b0e14;
+    --bg-alt:#0e1219;
+    --surface:#141a24;
+    --surface-2:#1b2230;
+    --border:#252d3d;
+    --border-soft:#1d2432;
+    --text:#eef1f6;
+    --muted:#8d99ad;
+    --muted-dim:#6b7688;
     --accent:#e3a458;
     --accent-dark:#b9793a;
-    --accent-soft:rgba(227,164,88,0.14);
+    --accent-soft:rgba(227,164,88,0.12);
+    --accent-soft-2:rgba(227,164,88,0.22);
     --tokopedia:#42b549;
     --shopee:#ee4d2d;
     --tiktok:#f0f1f3;
-    --radius-card:10px;
-    --maxw:1180px;
+    --radius-card:14px;
+    --maxw:1200px;
+    --shadow-card:0 1px 0 rgba(255,255,255,0.02) inset, 0 20px 40px -24px rgba(0,0,0,0.55);
   }
 
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
     margin:0;
-    background:var(--bg);
+    background:
+      radial-gradient(900px 500px at 100% 0%, rgba(227,164,88,0.05), transparent 60%),
+      var(--bg);
     color:var(--text);
     font-family:'Inter',sans-serif;
-    line-height:1.5;
+    line-height:1.55;
     -webkit-font-smoothing:antialiased;
   }
   h1,h2,h3,.brand{font-family:'Space Grotesk',sans-serif;}
   .mono{font-family:'JetBrains Mono',monospace;}
   a{color:inherit;}
   img{max-width:100%;display:block;}
+  button{font-family:inherit;}
   :focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
 
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
@@ -50,21 +57,26 @@
   /* ---------- Header ---------- */
   header{
     position:sticky;top:0;z-index:50;
-    background:rgba(13,17,23,0.85);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--border);
+    background:rgba(11,14,20,0.82);
+    backdrop-filter:blur(14px) saturate(140%);
+    border-bottom:1px solid var(--border-soft);
   }
   .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:var(--maxw);margin:0 auto;}
-  .brand{font-size:20px;font-weight:700;letter-spacing:-0.02em;display:flex;align-items:center;gap:8px;text-decoration:none;}
-  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
-  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--muted);}
+  .brand{font-size:20px;font-weight:700;letter-spacing:-0.02em;display:flex;align-items:center;gap:9px;text-decoration:none;}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);}
+  .nav-links{display:flex;align-items:center;gap:28px;font-size:14px;color:var(--muted);}
   .nav-links a{text-decoration:none;transition:color .15s;}
   .nav-links a:hover{color:var(--text);}
-  @media (max-width:640px){.nav-links{display:none;}}
+  .nav-count{
+    font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);
+    background:var(--accent-soft);border:1px solid rgba(227,164,88,0.25);
+    padding:5px 11px;border-radius:20px;
+  }
+  @media (max-width:640px){.nav-links a:not(.nav-count){display:none;}}
 
   /* ---------- Hero ---------- */
-  .hero{padding:72px 0 64px;border-bottom:1px solid var(--border);background:
-    radial-gradient(600px 300px at 85% -10%, var(--accent-soft), transparent 70%);
+  .hero{padding:76px 0 68px;border-bottom:1px solid var(--border-soft);background:
+    radial-gradient(620px 320px at 88% -12%, var(--accent-soft), transparent 70%);
   }
   .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:center;}
   @media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:40px;}}
@@ -74,14 +86,18 @@
     letter-spacing:0.06em;text-transform:uppercase;margin-bottom:18px;
   }
   .eyebrow::before{content:'';width:16px;height:1px;background:var(--accent);}
-  .hero h1{font-size:42px;line-height:1.15;letter-spacing:-0.02em;margin:0 0 18px;font-weight:700;}
+  .hero h1{font-size:44px;line-height:1.14;letter-spacing:-0.02em;margin:0 0 18px;font-weight:700;}
   .hero h1 span{color:var(--accent);}
   @media (max-width:640px){.hero h1{font-size:30px;}}
   .hero p{color:var(--muted);font-size:17px;max-width:48ch;margin:0 0 28px;}
+  .hero-stats{display:flex;gap:28px;margin-top:8px;flex-wrap:wrap;}
+  .hero-stat b{display:block;font-family:'Space Grotesk',sans-serif;font-size:22px;color:var(--text);}
+  .hero-stat span{font-size:12.5px;color:var(--muted-dim);}
+
   .btn{
     display:inline-flex;align-items:center;gap:8px;
     font-family:'Inter',sans-serif;font-weight:600;font-size:15px;
-    padding:13px 22px;border-radius:8px;border:1px solid transparent;
+    padding:13px 22px;border-radius:9px;border:1px solid transparent;
     cursor:pointer;text-decoration:none;transition:transform .15s, background .15s, border-color .15s;
   }
   .btn-primary{background:var(--accent);color:#191204;}
@@ -92,9 +108,9 @@
 
   /* device frame for hero video */
   .device{
-    position:relative;background:#000;border-radius:18px;padding:10px;
+    position:relative;background:#000;border-radius:20px;padding:10px;
     border:1px solid var(--border);
-    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
+    box-shadow:0 34px 64px -22px rgba(0,0,0,0.65);
   }
   .device::before{
     content:'';position:absolute;top:22px;left:50%;transform:translateX(-50%);
@@ -102,7 +118,7 @@
   }
   .device-screen{
     position:relative;padding-top:56.25%;background:var(--surface);
-    border-radius:10px;overflow:hidden;
+    border-radius:12px;overflow:hidden;
   }
   .device-screen iframe,.device-screen video{
     position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover;
@@ -117,25 +133,32 @@
   }
 
   /* ---------- Trust / kenapa section ---------- */
-  .trust{padding:56px 0;border-bottom:1px solid var(--border);background:var(--bg-alt);}
-  .trust h2{font-size:26px;margin:0 0 34px;letter-spacing:-0.01em;}
+  .trust{padding:60px 0;border-bottom:1px solid var(--border-soft);background:var(--bg-alt);}
+  .trust h2{font-size:27px;margin:0 0 34px;letter-spacing:-0.01em;}
   .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
   @media (max-width:800px){.trust-grid{grid-template-columns:1fr;}}
-  .trust-card{padding:24px;background:var(--surface);border:1px solid var(--border);border-radius:10px;}
+  .trust-card{padding:26px;background:var(--surface);border:1px solid var(--border-soft);border-radius:12px;transition:border-color .2s, transform .2s;}
+  .trust-card:hover{border-color:var(--accent-soft-2);}
   .trust-card .num{font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:13px;margin-bottom:12px;display:block;}
   .trust-card h3{font-size:17px;margin:0 0 8px;}
   .trust-card p{color:var(--muted);font-size:14px;margin:0;}
 
   /* ---------- Products ---------- */
-  .products{padding:64px 0 80px;}
+  .products{padding:68px 0 84px;}
   .products-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:28px;flex-wrap:wrap;}
-  .products-head h2{font-size:26px;margin:0 0 6px;}
+  .products-head h2{font-size:27px;margin:0 0 6px;}
   .products-head p{color:var(--muted);font-size:14px;margin:0;}
+  .products-head .count-badge{
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--text);
+    background:var(--surface-2);border:1px solid var(--border);padding:7px 14px;border-radius:20px;
+    white-space:nowrap;
+  }
+  .products-head .count-badge b{color:var(--accent);}
 
   /* ---------- Search Bar CSS ---------- */
   .search-container{
     position:relative;
-    margin-bottom:20px;
+    margin-bottom:18px;
     width:100%;
   }
   .search-input{
@@ -143,12 +166,13 @@
     padding:14px 16px 14px 44px;
     background:var(--surface);
     border:1px solid var(--border);
-    border-radius:10px;
+    border-radius:11px;
     color:var(--text);
     font-size:14px;
     font-family:'Inter',sans-serif;
     transition:border-color .2s, box-shadow .2s;
   }
+  .search-input::placeholder{color:var(--muted-dim);}
   .search-input:focus{
     outline:none;
     border-color:var(--accent);
@@ -165,32 +189,36 @@
     align-items:center;
   }
 
-  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
   .chip{
     font-family:'JetBrains Mono',monospace;font-size:12px;padding:8px 14px;border-radius:20px;
     border:1px solid var(--border);color:var(--muted);cursor:pointer;background:transparent;
-    transition:border-color .15s, color .15s;
+    transition:border-color .15s, color .15s, background .15s;
   }
-  .chip:hover{color:var(--text);}
+  .chip:hover{color:var(--text);border-color:#3a4459;}
   .chip.active{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
 
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:22px;}
+  .results-line{font-size:12.5px;color:var(--muted-dim);margin:0 0 20px;font-family:'JetBrains Mono',monospace;}
+  .results-line b{color:var(--text);}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:22px;}
 
   .card{
-    position:relative;background:var(--surface);border:1px solid var(--border);
+    position:relative;background:var(--surface);border:1px solid var(--border-soft);
     border-radius:var(--radius-card);overflow:hidden;display:flex;flex-direction:column;
-    transition:transform .18s, border-color .18s;
+    box-shadow:var(--shadow-card);
+    transition:transform .2s, border-color .2s, box-shadow .2s;
   }
   @media (prefers-reduced-motion:no-preference){
     .card:hover{transform:translateY(-4px);border-color:#3a4459;}
-    .card:hover .card-img img{transform:scale(1.04);}
+    .card:hover .card-img img{transform:scale(1.05);}
   }
   .card-img{position:relative;aspect-ratio:4/3;background:var(--surface-2);overflow:hidden;}
-  .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+  .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .45s;}
   .card-img iframe,.card-img video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover;background:#000;}
-  .play-badge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(13,17,23,0.28);}
+  .play-badge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(11,14,20,0.3);}
   .play-badge button{
-    width:50px;height:50px;border-radius:50%;background:rgba(13,17,23,0.78);
+    width:50px;height:50px;border-radius:50%;background:rgba(11,14,20,0.8);
     border:1px solid rgba(255,255,255,0.28);color:var(--accent);font-size:16px;
     cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0 0 0 3px;
     transition:transform .15s, background .15s, color .15s;
@@ -199,34 +227,30 @@
   .play-badge .label{
     position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
     font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#fff;
-    background:rgba(13,17,23,0.65);padding:3px 9px;border-radius:12px;letter-spacing:0.02em;
+    background:rgba(11,14,20,0.65);padding:3px 9px;border-radius:12px;letter-spacing:0.02em;
   }
   .tag-stamp{
-    position:absolute;top:12px;left:12px;background:rgba(13,17,23,0.85);
+    position:absolute;top:12px;left:12px;background:rgba(11,14,20,0.85);
     border:1px solid var(--border);color:var(--accent);
     font-family:'JetBrains Mono',monospace;font-size:11px;padding:4px 10px;
-    border-radius:20px;transform:rotate(-3deg);letter-spacing:0.03em;text-transform:uppercase;
+    border-radius:20px;letter-spacing:0.03em;text-transform:uppercase;
   }
-  .card-body{padding:16px 18px 4px;flex:1;display:flex;flex-direction:column;}
-  .card-body h3{font-size:16.5px;margin:0 0 6px;letter-spacing:-0.01em;}
-  .card-body .desc{color:var(--muted);font-size:13.5px;margin:0 0 10px;}
-  .why{
-    font-size:13px;color:var(--text);background:var(--surface-2);border-left:2px solid var(--accent);
-    padding:8px 10px;border-radius:0 6px 6px 0;margin:0 0 6px;
-  }
-  .why b{color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;display:block;margin-bottom:2px;letter-spacing:0.04em;}
+  .card-body{padding:18px 18px 4px;flex:1;display:flex;flex-direction:column;}
+  .card-body h3{font-size:16.5px;margin:0 0 8px;letter-spacing:-0.01em;line-height:1.3;}
 
-  .tear{position:relative;height:0;border-top:2px dashed var(--border);margin:0 2px;}
-  .tear::before,.tear::after{
-    content:'';position:absolute;top:50%;transform:translateY(-50%);
-    width:16px;height:16px;border-radius:50%;background:var(--bg);
-  }
-  .tear::before{left:-10px;}
-  .tear::after{right:-10px;}
+  .card-foot{padding:12px 18px 20px;margin-top:auto;}
+  .price{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600;color:var(--text);margin:0 0 4px;}
+  .price small{color:var(--muted-dim);font-size:11.5px;font-weight:500;display:block;font-family:'Inter',sans-serif;margin-top:2px;}
 
-  .card-foot{padding:14px 18px 18px;}
-  .price{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600;color:var(--text);margin:12px 0 12px;}
-  .price small{color:var(--muted);font-size:12px;font-weight:500;display:block;font-family:'Inter',sans-serif;}
+  .action-row{display:flex;gap:8px;margin:14px 0 12px;}
+  .detail-btn{
+    flex:1;text-align:center;font-size:13px;font-weight:600;color:var(--text);
+    background:var(--surface-2);border:1px solid var(--border);border-radius:8px;
+    padding:10px 10px;cursor:pointer;transition:border-color .15s, background .15s, color .15s;
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .detail-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .detail-btn svg{opacity:0.8;}
 
   .buy-row{display:flex;gap:8px;flex-wrap:wrap;}
   .buy-btn{
@@ -242,7 +266,7 @@
   .buy-btn.tiktok:hover{background:var(--tiktok);color:#000;}
 
   /* ---------- States ---------- */
-  .state{padding:60px 20px;text-align:center;color:var(--muted);grid-column:1/-1;}
+  .state{padding:64px 20px;text-align:center;color:var(--muted);grid-column:1/-1;}
   .state .ring{width:36px;height:36px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--accent);margin:0 auto 16px;}
   @media (prefers-reduced-motion:no-preference){.state .ring{animation:spin 0.9s linear infinite;}}
   @keyframes spin{to{transform:rotate(360deg);}}
@@ -254,8 +278,65 @@
   }
   .banner-demo b{color:var(--accent);}
 
+  /* ---------- Detail Modal ---------- */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(6,8,12,0.72);backdrop-filter:blur(4px);
+    display:none;align-items:center;justify-content:center;padding:20px;z-index:100;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--surface);border:1px solid var(--border);border-radius:16px;
+    max-width:560px;width:100%;max-height:88vh;overflow-y:auto;
+    box-shadow:0 40px 80px -20px rgba(0,0,0,0.7);
+    position:relative;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .modal-overlay.open .modal-box{animation:modalIn .22s ease-out;}
+  }
+  @keyframes modalIn{from{opacity:0;transform:translateY(10px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+  .modal-close{
+    position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;
+    background:rgba(11,14,20,0.6);border:1px solid var(--border);color:var(--text);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;
+    font-size:16px;line-height:1;transition:background .15s, border-color .15s;
+  }
+  .modal-close:hover{border-color:var(--accent);color:var(--accent);}
+  .modal-img{position:relative;aspect-ratio:16/10;background:var(--surface-2);border-radius:16px 16px 0 0;overflow:hidden;}
+  .modal-img img{width:100%;height:100%;object-fit:cover;}
+  .modal-img iframe,.modal-img video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover;background:#000;}
+  .modal-body{padding:24px 26px 28px;}
+  .modal-tag{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);
+    background:var(--accent-soft);border:1px solid rgba(227,164,88,0.25);padding:4px 10px;
+    border-radius:20px;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:12px;
+  }
+  .modal-body h3{font-size:21px;margin:0 0 10px;letter-spacing:-0.01em;}
+  .modal-price{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:600;color:var(--text);margin-bottom:16px;}
+  .modal-price small{display:block;color:var(--muted-dim);font-size:11.5px;font-weight:500;font-family:'Inter',sans-serif;margin-top:2px;}
+  .modal-section{margin-bottom:16px;}
+  .modal-section .label{
+    font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted-dim);
+    text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;display:block;
+  }
+  .modal-section p{margin:0;font-size:14.5px;color:var(--text);}
+  .modal-why{
+    font-size:14px;color:var(--text);background:var(--surface-2);border-left:2px solid var(--accent);
+    padding:12px 14px;border-radius:0 8px 8px 0;margin:0;
+  }
+  .modal-play-hint{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(11,14,20,0.28);cursor:pointer;
+  }
+  .modal-play-hint button{
+    width:56px;height:56px;border-radius:50%;background:rgba(11,14,20,0.8);
+    border:1px solid rgba(255,255,255,0.28);color:var(--accent);font-size:18px;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0 0 0 3px;
+    transition:transform .15s, background .15s, color .15s;
+  }
+  .modal-play-hint button:hover{background:var(--accent);color:#191204;transform:scale(1.08);}
+  .modal-buy-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+
   /* ---------- Footer ---------- */
-  footer{border-top:1px solid var(--border);padding:32px 0;background:var(--bg-alt);}
+  footer{border-top:1px solid var(--border-soft);padding:32px 0;background:var(--bg-alt);}
   .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--muted);}
 </style>
 </head>
@@ -265,9 +346,9 @@
   <div class="nav">
     <a href="#top" class="brand"><span class="dot"></span>KautsarVault</a>
     <nav class="nav-links">
-      <a href="#produk">Katalog Produk</a>
       <a href="#kenapa">Kenapa KautsarVault?</a>
       <a href="#video">Video Review</a>
+      <a href="#produk" class="nav-count mono" id="navCount">— produk</a>
     </nav>
   </div>
 </header>
@@ -282,6 +363,11 @@
         <h1>Elektronik, Rumah Tangga & Aksesoris <span>Terbaik</span>.</h1>
         <p>Setiap barang di sini — mulai dari perangkat elektronik, perlengkapan rumah, hingga aksesoris — saya pilih berdasarkan riset kualitas, harga wajar, dan ulasan pembeli.</p>
         <a href="#produk" class="btn btn-primary">Lihat katalog rekomendasi ↓</a>
+        <div class="hero-stats">
+          <div class="hero-stat"><b id="statTotal">—</b><span>Produk tersedia</span></div>
+          <div class="hero-stat"><b id="statCat">—</b><span>Kategori</span></div>
+          <div class="hero-stat"><b>3</b><span>Marketplace resmi</span></div>
+        </div>
       </div>
       <div class="device" id="video">
         <div class="device-screen" id="heroScreen">
@@ -312,7 +398,7 @@
         <div class="trust-card">
           <span class="num">RASIONAL</span>
           <h3>Ada ulasan singkat</h3>
-          <p>Tersedia poin alasan kenapa produk tersebut berguna untuk kebutuhan harian atau rumah tangga Kamu.</p>
+          <p>Tekan "Lihat Detail" pada tiap produk untuk membaca alasan kenapa produk itu layak dibeli.</p>
         </div>
       </div>
     </div>
@@ -326,6 +412,7 @@
           <h2>Katalog Rekomendasi</h2>
           <p>Data produk diperbarui langsung lewat Google Sheets — terbagi otomatis sesuai kategori.</p>
         </div>
+        <span class="count-badge" id="countBadge">Memuat…</span>
       </div>
 
       <!-- SEARCH BAR ELEMENT -->
@@ -340,6 +427,7 @@
       </div>
 
       <div class="filters" id="filters"></div>
+      <p class="results-line" id="resultsLine"></p>
 
       <div class="grid" id="grid">
         <div class="state">
@@ -351,6 +439,14 @@
   </section>
 
 </main>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox">
+    <button type="button" class="modal-close" id="modalClose" aria-label="Tutup">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
 
 <footer>
   <div class="wrap foot-row">
@@ -419,6 +515,12 @@ function formatHarga(h){
   return "Rp " + clean.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+function escapeHtml(str){
+  return String(str || "").replace(/[&<>"']/g, m => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  }[m]));
+}
+
 function normalizeRow(row){
   const out = {};
   Object.keys(row).forEach(k => out[k.trim().toLowerCase()] = (row[k] || "").trim());
@@ -485,23 +587,25 @@ function buildPlayer(rawUrl){
   return `<iframe src="${url}${sep}autoplay=1" title="Video Promosi" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
 }
 
-function cardHtml(p){
-  const rawVideo = (p.video || "").trim();
+/* Kartu produk ringkas — deskripsi & alasan disembunyikan, tampil lewat modal "Lihat Detail" */
+function cardHtml(p, idx){
   return `
-    <div class="card" data-kategori="${p.kategori || 'Lainnya'}">
-      <div class="card-img" ${rawVideo ? `data-video="${encodeURIComponent(rawVideo)}"` : ""}>
-        <img src="${p.gambar || 'https://placehold.co/600x450/171d29/93a0b4?text=Produk'}" alt="${p.nama}" loading="lazy">
-        ${p.kategori ? `<span class="tag-stamp">${p.kategori}</span>` : ""}
-        ${rawVideo ? `<div class="play-badge"><button type="button" aria-label="Putar video promosi ${p.nama}">▶</button><span class="label">Video promosi</span></div>` : ""}
+    <div class="card" data-kategori="${escapeHtml(p.kategori || 'Lainnya')}">
+      <div class="card-img">
+        <img src="${escapeHtml(p.gambar) || 'https://placehold.co/600x450/171d29/93a0b4?text=Produk'}" alt="${escapeHtml(p.nama)}" loading="lazy">
+        ${p.kategori ? `<span class="tag-stamp">${escapeHtml(p.kategori)}</span>` : ""}
       </div>
       <div class="card-body">
-        <h3>${p.nama}</h3>
-        <p class="desc">${p.deskripsi || ""}</p>
-        ${p.alasan ? `<div class="why"><b>Kenapa harus beli ini??</b>${p.alasan}</div>` : ""}
+        <h3>${escapeHtml(p.nama)}</h3>
       </div>
-      <div class="tear"></div>
       <div class="card-foot">
         <div class="price">${formatHarga(p.harga)}<small>harga di toko resmi</small></div>
+        <div class="action-row">
+          <button type="button" class="detail-btn" data-idx="${idx}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            Lihat Detail
+          </button>
+        </div>
         <div class="buy-row">
           ${buyButton(p.tokopedia, "tokopedia", "Tokopedia")}
           ${buyButton(p.shopee, "shopee", "Shopee")}
@@ -516,7 +620,7 @@ function renderFilters(){
   const cats = ["Semua", ...new Set(ALL_PRODUCTS.map(p => p.kategori).filter(Boolean))];
   const box = document.getElementById("filters");
   box.innerHTML = cats.map(c =>
-    `<button class="chip ${c === ACTIVE_CATEGORY ? 'active' : ''}" data-cat="${c}">${c}</button>`
+    `<button class="chip ${c === ACTIVE_CATEGORY ? 'active' : ''}" data-cat="${escapeHtml(c)}">${escapeHtml(c)}</button>`
   ).join("");
   box.querySelectorAll(".chip").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -525,36 +629,51 @@ function renderFilters(){
       renderGrid();
     });
   });
+
+  document.getElementById("statCat").textContent = (cats.length - 1) || "—";
 }
 
-function renderGrid(isDemo){
-  const grid = document.getElementById("grid");
+function getFilteredList(){
   const query = SEARCH_QUERY.toLowerCase().trim();
-
-  // Filter gabungan (kategori + pencarian teks)
-  const list = ALL_PRODUCTS.filter(p => {
+  return ALL_PRODUCTS.filter(p => {
     const matchCat = ACTIVE_CATEGORY === "Semua" || (p.kategori || "Lainnya") === ACTIVE_CATEGORY;
     const matchSearch = !query ||
       (p.nama || "").toLowerCase().includes(query) ||
       (p.deskripsi || "").toLowerCase().includes(query) ||
       (p.kategori || "").toLowerCase().includes(query) ||
       (p.alasan || "").toLowerCase().includes(query);
-
     return matchCat && matchSearch;
   });
+}
+
+function renderGrid(isDemo){
+  const grid = document.getElementById("grid");
+  const list = getFilteredList();
 
   const banner = isDemo
     ? `<div class="banner-demo"><b>Contoh data.</b> Masukkan URL Google Sheets CSV kamu di CONFIG.SHEET_CSV_URL untuk menampilkan data asli.</div>`
     : "";
 
+  document.getElementById("resultsLine").innerHTML =
+    `Menampilkan <b>${list.length}</b> dari <b>${ALL_PRODUCTS.length}</b> produk${ACTIVE_CATEGORY !== "Semua" ? ` di kategori <b>${escapeHtml(ACTIVE_CATEGORY)}</b>` : ""}`;
+
   if(list.length === 0){
-    const msg = SEARCH_QUERY 
-      ? `Tidak ada produk yang cocok dengan pencarian "<b>${SEARCH_QUERY}</b>".`
+    const msg = SEARCH_QUERY
+      ? `Tidak ada produk yang cocok dengan pencarian "<b>${escapeHtml(SEARCH_QUERY)}</b>".`
       : `Belum ada produk di kategori ini.`;
     grid.innerHTML = banner + `<div class="state">${msg}</div>`;
     return;
   }
-  grid.innerHTML = banner + list.map(cardHtml).join("");
+
+  // simpan indeks asli agar tombol Detail bisa merujuk objek produk yang benar
+  grid.innerHTML = banner + list.map(p => cardHtml(p, ALL_PRODUCTS.indexOf(p))).join("");
+}
+
+function updateCounters(){
+  const total = ALL_PRODUCTS.length;
+  document.getElementById("countBadge").innerHTML = `<b>${total}</b> produk tersedia`;
+  document.getElementById("navCount").textContent = `${total} produk`;
+  document.getElementById("statTotal").textContent = total;
 }
 
 function showError(errDetail){
@@ -571,6 +690,7 @@ function showError(errDetail){
 function useDemo(){
   ALL_PRODUCTS = DEMO_PRODUCTS.map(normalizeRow);
   ACTIVE_CATEGORY = "Semua";
+  updateCounters();
   renderFilters();
   renderGrid(true);
 }
@@ -595,12 +715,87 @@ function loadProducts(){
       if(rows.length === 0){ useDemo(); return; }
       ALL_PRODUCTS = rows;
       ACTIVE_CATEGORY = "Semua";
+      updateCounters();
       renderFilters();
       renderGrid(false);
     },
     error: (err) => showError(err)
   });
 }
+
+/* ============================================================
+   Modal Detail Produk
+   ============================================================ */
+const modalOverlay = document.getElementById("modalOverlay");
+const modalContent = document.getElementById("modalContent");
+
+function openModal(p){
+  const rawVideo = (p.video || "").trim();
+  const img = escapeHtml(p.gambar) || 'https://placehold.co/600x450/171d29/93a0b4?text=Produk';
+
+  modalContent.innerHTML = `
+    <div class="modal-img" ${rawVideo ? `data-video="${encodeURIComponent(rawVideo)}" id="modalImgBox"` : ""}>
+      <img src="${img}" alt="${escapeHtml(p.nama)}">
+      ${rawVideo ? `
+        <div class="modal-play-hint" id="modalPlayHint">
+          <button type="button" aria-label="Putar video promosi ${escapeHtml(p.nama)}">▶</button>
+        </div>` : ""}
+    </div>
+    <div class="modal-body">
+      ${p.kategori ? `<span class="modal-tag">${escapeHtml(p.kategori)}</span>` : ""}
+      <h3>${escapeHtml(p.nama)}</h3>
+      <div class="modal-price">${formatHarga(p.harga)}<small>harga di toko resmi</small></div>
+
+      ${p.deskripsi ? `
+      <div class="modal-section">
+        <span class="label">Deskripsi</span>
+        <p>${escapeHtml(p.deskripsi)}</p>
+      </div>` : ""}
+
+      ${p.alasan ? `
+      <div class="modal-section">
+        <span class="label">Kenapa harus beli ini?</span>
+        <p class="modal-why">${escapeHtml(p.alasan)}</p>
+      </div>` : ""}
+
+      <div class="modal-section" style="margin-bottom:0;">
+        <span class="label">Beli sekarang</span>
+        <div class="modal-buy-row">
+          ${buyButton(p.tokopedia, "tokopedia", "Tokopedia")}
+          ${buyButton(p.shopee, "shopee", "Shopee")}
+          ${buyButton(p.tiktok, "tiktok", "TikTok Shop")}
+        </div>
+      </div>
+    </div>
+  `;
+
+  const playHint = document.getElementById("modalPlayHint");
+  if(playHint){
+    playHint.addEventListener("click", () => {
+      const box = document.getElementById("modalImgBox");
+      const raw = decodeURIComponent(box.dataset.video || "");
+      if(!raw) return;
+      box.innerHTML = buildPlayer(raw);
+    });
+  }
+
+  modalOverlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal(){
+  modalOverlay.classList.remove("open");
+  document.body.style.overflow = "";
+  modalContent.innerHTML = "";
+}
+
+document.getElementById("modalClose").addEventListener("click", closeModal);
+modalOverlay.addEventListener("click", (e) => {
+  if(e.target === modalOverlay) closeModal();
+});
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Escape" && modalOverlay.classList.contains("open")) closeModal();
+});
 
 /* ============================================================
    Event Handler Pencarian (Live Search)
@@ -611,15 +806,14 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
 });
 
 /* ============================================================
-   Putar video promosi di dalam kartu produk
+   Klik tombol "Lihat Detail" pada kartu produk
    ============================================================ */
 document.getElementById("grid").addEventListener("click", (e) => {
-  const btn = e.target.closest(".play-badge button");
+  const btn = e.target.closest(".detail-btn");
   if(!btn) return;
-  const box = btn.closest(".card-img");
-  const raw = decodeURIComponent(box.dataset.video || "");
-  if(!raw) return;
-  box.innerHTML = buildPlayer(raw);
+  const idx = Number(btn.dataset.idx);
+  const product = ALL_PRODUCTS[idx];
+  if(product) openModal(product);
 });
 
 /* ============================================================
