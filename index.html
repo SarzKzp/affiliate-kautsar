@@ -324,15 +324,22 @@
     padding:12px 14px;border-radius:0 8px 8px 0;margin:0;
   }
   .modal-play-hint{
-    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(11,14,20,0.28);cursor:pointer;
+    position:absolute;inset:0;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;
+    background:rgba(11,14,20,0.32);cursor:pointer;text-decoration:none;transition:background .15s;
   }
+  .modal-play-hint:hover{background:rgba(11,14,20,0.5);}
   .modal-play-hint button{
     width:56px;height:56px;border-radius:50%;background:rgba(11,14,20,0.8);
     border:1px solid rgba(255,255,255,0.28);color:var(--accent);font-size:18px;
     cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0 0 0 3px;
     transition:transform .15s, background .15s, color .15s;
+    pointer-events:none;
   }
-  .modal-play-hint button:hover{background:var(--accent);color:#191204;transform:scale(1.08);}
+  .modal-play-hint:hover button{background:var(--accent);color:#191204;transform:scale(1.08);}
+  .modal-play-hint .label{
+    font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#fff;
+    background:rgba(11,14,20,0.65);padding:4px 11px;border-radius:12px;letter-spacing:0.02em;
+  }
   .modal-buy-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
 
   /* ---------- Footer ---------- */
@@ -554,39 +561,6 @@ function buyButton(url, cls, label){
   return `<a class="buy-btn ${cls}" href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
 }
 
-/* Pemutar Video Multi-Platform (YouTube, Instagram, TikTok, Shopee Video / Direct MP4) */
-function buildPlayer(rawUrl){
-  if(!rawUrl) return "";
-  const url = rawUrl.trim();
-
-  // 1. File MP4 / WebM / Ogg Langsung (Termasuk CDN Shopee Video / TikTok MP4)
-  if(/\.(mp4|webm|ogg)(\?.*)?$/i.test(url) || url.includes(".mp4")){
-    return `<video src="${url}" controls autoplay playsinline style="width:100%;height:100%;object-fit:cover;"></video>`;
-  }
-
-  // 2. YouTube & YouTube Shorts
-  const ytMatch = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([a-zA-Z0-9_-]{6,})/);
-  if(ytMatch){
-    return `<iframe src="https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0" title="Video YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
-  }
-
-  // 3. Instagram (Reels, Posts, IGTV)
-  const igMatch = url.match(/instagram\.com\/(?:p|reel|tv)\/([a-zA-Z0-9_-]+)/);
-  if(igMatch){
-    return `<iframe src="https://www.instagram.com/p/${igMatch[1]}/embed/" title="Video Instagram" allowtransparency="true" allowfullscreen style="width:100%;height:100%;border:0;background:#000;"></iframe>`;
-  }
-
-  // 4. TikTok Video (Format link: tiktok.com/@user/video/12345678)
-  const ttMatch = url.match(/tiktok\.com\/.*\/video\/(\d+)/) || url.match(/tiktok\.com\/v\/(\d+)/);
-  if(ttMatch){
-    return `<iframe src="https://www.tiktok.com/embed/v2/${ttMatch[1]}" title="Video TikTok" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
-  }
-
-  // 5. Fallback iframe untuk link video/web umum lainnya
-  const sep = url.indexOf("?") > -1 ? "&" : "?";
-  return `<iframe src="${url}${sep}autoplay=1" title="Video Promosi" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="width:100%;height:100%;border:0;"></iframe>`;
-}
-
 /* Kartu produk ringkas — deskripsi & alasan disembunyikan, tampil lewat modal "Lihat Detail" */
 function cardHtml(p, idx){
   return `
@@ -734,12 +708,13 @@ function openModal(p){
   const img = escapeHtml(p.gambar) || 'https://placehold.co/600x450/171d29/93a0b4?text=Produk';
 
   modalContent.innerHTML = `
-    <div class="modal-img" ${rawVideo ? `data-video="${encodeURIComponent(rawVideo)}" id="modalImgBox"` : ""}>
+    <div class="modal-img">
       <img src="${img}" alt="${escapeHtml(p.nama)}">
       ${rawVideo ? `
-        <div class="modal-play-hint" id="modalPlayHint">
-          <button type="button" aria-label="Putar video promosi ${escapeHtml(p.nama)}">▶</button>
-        </div>` : ""}
+        <a class="modal-play-hint" href="${escapeHtml(rawVideo)}" target="_blank" rel="noopener noreferrer" aria-label="Tonton video promosi ${escapeHtml(p.nama)} di sumber aslinya">
+          <button type="button" tabindex="-1">▶</button>
+          <span class="label">Tonton di sumber asli ↗</span>
+        </a>` : ""}
     </div>
     <div class="modal-body">
       ${p.kategori ? `<span class="modal-tag">${escapeHtml(p.kategori)}</span>` : ""}
@@ -768,16 +743,6 @@ function openModal(p){
       </div>
     </div>
   `;
-
-  const playHint = document.getElementById("modalPlayHint");
-  if(playHint){
-    playHint.addEventListener("click", () => {
-      const box = document.getElementById("modalImgBox");
-      const raw = decodeURIComponent(box.dataset.video || "");
-      if(!raw) return;
-      box.innerHTML = buildPlayer(raw);
-    });
-  }
 
   modalOverlay.classList.add("open");
   document.body.style.overflow = "hidden";
