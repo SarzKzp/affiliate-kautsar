@@ -199,15 +199,18 @@
 
   .device{
     position:relative;background:#000;border-radius:20px;padding:10px;
-    border:1px solid var(--border);
-    box-shadow:0 34px 64px -22px rgba(0,0,0,0.65);
+    border:1px solid #3a4459;
+    box-shadow:0 34px 64px -22px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.04) inset;
     max-width:460px;margin:0 auto;
   }
   .device::before{
     content:'';position:absolute;top:22px;left:50%;transform:translateX(-50%);
-    width:44px;height:5px;border-radius:3px;background:#2a3244;
+    width:44px;height:5px;border-radius:3px;background:#454f68;
   }
-  .device-screen{position:relative;padding-top:56.25%;background:var(--surface);border-radius:12px;overflow:hidden;}
+  .device-screen{
+    position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;
+    background:linear-gradient(160deg, var(--surface) 0%, #05070a 100%);
+  }
   .device-screen iframe,.device-screen video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover;}
   .device-placeholder{
     position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -647,13 +650,34 @@ function escapeHtml(str){
 
 function renderHeroVideo(){
   const url = CONFIG.HERO_VIDEO_URL;
-  if(!url) return;
   const screen = document.getElementById("heroScreen");
-  screen.innerHTML = `
-    <video src="${url}" autoplay muted loop playsinline controls style="width:100%; height:100%; object-fit:cover;">
-      Browser Anda tidak mendukung pemutaran video.
-    </video>
-  `;
+  if(!url) return;
+
+  const video = document.createElement("video");
+  video.src = url;
+  video.autoplay = true;
+  video.muted = true;
+  video.loop = true;
+  video.playsInline = true;
+  video.controls = true;
+  video.style.position = "absolute";
+  video.style.inset = "0";
+  video.style.width = "100%";
+  video.style.height = "100%";
+  video.style.objectFit = "cover";
+
+  // Kalau file video gagal dimuat (mis. belum diunggah ke hosting / salah path),
+  // kembalikan ke placeholder yang jelas, bukan kotak kosong.
+  video.addEventListener("error", () => {
+    screen.innerHTML = `
+      <div class="device-placeholder">
+        <div class="ring">▶</div>
+        <span>Video belum bisa dimuat.<br>Pastikan file <b class="mono">${escapeHtml(url)}</b> sudah diunggah ke folder yang sama dengan halaman ini.</span>
+      </div>`;
+  });
+
+  screen.innerHTML = "";
+  screen.appendChild(video);
 }
 
 function getVideoLabel(url){
