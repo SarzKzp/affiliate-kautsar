@@ -28,6 +28,9 @@
     --tokopedia:#42b549;
     --shopee:#ee4d2d;
     --tiktok:#f0f1f3;
+    --whatsapp:#25d366;
+    --instagram:#e8a9d9;
+    --danger:#ef6a52;
     --radius-card:14px;
     --maxw:1200px;
     --shadow-card:0 1px 0 rgba(255,255,255,0.02) inset, 0 20px 40px -24px rgba(0,0,0,0.55);
@@ -61,21 +64,32 @@
     backdrop-filter:blur(14px) saturate(140%);
     border-bottom:1px solid var(--border-soft);
   }
-  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:var(--maxw);margin:0 auto;}
-  .brand{font-size:20px;font-weight:700;letter-spacing:-0.02em;display:flex;align-items:center;gap:9px;text-decoration:none;}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:var(--maxw);margin:0 auto;gap:16px;}
+  .brand{font-size:20px;font-weight:700;letter-spacing:-0.02em;display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0;}
   .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft);}
+  .nav-right{display:flex;align-items:center;gap:22px;}
   .nav-links{display:flex;align-items:center;gap:28px;font-size:14px;color:var(--muted);}
   .nav-links a{text-decoration:none;transition:color .15s;}
   .nav-links a:hover{color:var(--text);}
   .nav-count{
     font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);
     background:var(--accent-soft);border:1px solid rgba(227,164,88,0.25);
-    padding:5px 11px;border-radius:20px;
+    padding:5px 11px;border-radius:20px;white-space:nowrap;
   }
-  @media (max-width:640px){.nav-links a:not(.nav-count){display:none;}}
+  .social-row{display:flex;align-items:center;gap:8px;padding-left:8px;border-left:1px solid var(--border-soft);}
+  .social-btn{
+    width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--border);color:var(--muted);
+    transition:border-color .15s, color .15s, background .15s;
+  }
+  .social-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
+  .social-btn svg{width:15px;height:15px;}
+  @media (max-width:640px){.nav-links{display:none;} .social-row{padding-left:0;border-left:none;}}
+  @media (max-width:420px){.nav-count{display:none;}}
 
   /* ---------- Hero ---------- */
-  .hero{padding:76px 0 68px;border-bottom:1px solid var(--border-soft);background:
+  .hero{padding:72px 0 64px;border-bottom:1px solid var(--border-soft);background:
     radial-gradient(620px 320px at 88% -12%, var(--accent-soft), transparent 70%);
   }
   .hero-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:center;}
@@ -106,7 +120,7 @@
   .btn-ghost:hover{border-color:var(--accent);}
   @media (prefers-reduced-motion:no-preference){.btn:active{transform:scale(0.97);}}
 
-  /* device frame for hero video */
+  /* ---------- Hero video frame (landscape 16:9) ---------- */
   .device{
     position:relative;background:#000;border-radius:20px;padding:10px;
     border:1px solid var(--border);
@@ -114,7 +128,7 @@
   }
   .device::before{
     content:'';position:absolute;top:22px;left:50%;transform:translateX(-50%);
-    width:46px;height:5px;border-radius:3px;background:#2a3244;
+    width:46px;height:5px;border-radius:3px;background:#2a3244;z-index:2;
   }
   .device-screen{
     position:relative;padding-top:56.25%;background:var(--surface);
@@ -131,6 +145,7 @@
     width:44px;height:44px;border-radius:50%;border:2px solid var(--border);
     display:flex;align-items:center;justify-content:center;color:var(--accent);
   }
+  .device-caption{text-align:center;font-size:12px;color:var(--muted-dim);margin-top:14px;}
 
   /* ---------- Trust / kenapa section ---------- */
   .trust{padding:60px 0;border-bottom:1px solid var(--border-soft);background:var(--bg-alt);}
@@ -155,39 +170,17 @@
   }
   .products-head .count-badge b{color:var(--accent);}
 
-  /* ---------- Search Bar CSS ---------- */
-  .search-container{
-    position:relative;
-    margin-bottom:18px;
-    width:100%;
-  }
+  /* ---------- Search Bar ---------- */
+  .search-container{position:relative;margin-bottom:18px;width:100%;}
   .search-input{
-    width:100%;
-    padding:14px 16px 14px 44px;
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:11px;
-    color:var(--text);
-    font-size:14px;
-    font-family:'Inter',sans-serif;
+    width:100%;padding:14px 16px 14px 44px;background:var(--surface);
+    border:1px solid var(--border);border-radius:11px;color:var(--text);
+    font-size:14px;font-family:'Inter',sans-serif;
     transition:border-color .2s, box-shadow .2s;
   }
   .search-input::placeholder{color:var(--muted-dim);}
-  .search-input:focus{
-    outline:none;
-    border-color:var(--accent);
-    box-shadow:0 0 0 3px var(--accent-soft);
-  }
-  .search-icon{
-    position:absolute;
-    left:16px;
-    top:50%;
-    transform:translateY(-50%);
-    color:var(--muted);
-    pointer-events:none;
-    display:flex;
-    align-items:center;
-  }
+  .search-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);}
+  .search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;display:flex;align-items:center;}
 
   .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
   .chip{
@@ -213,32 +206,40 @@
     .card:hover{transform:translateY(-4px);border-color:#3a4459;}
     .card:hover .card-img img{transform:scale(1.05);}
   }
-  .card-img{position:relative;aspect-ratio:4/3;background:var(--surface-2);overflow:hidden;}
+  .card-img{position:relative;aspect-ratio:4/3;background:var(--surface-2);overflow:hidden;cursor:pointer;}
   .card-img img{width:100%;height:100%;object-fit:cover;transition:transform .45s;}
-  .card-img iframe,.card-img video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover;background:#000;}
-  .play-badge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(11,14,20,0.3);}
-  .play-badge button{
-    width:50px;height:50px;border-radius:50%;background:rgba(11,14,20,0.8);
-    border:1px solid rgba(255,255,255,0.28);color:var(--accent);font-size:16px;
-    cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0 0 0 3px;
-    transition:transform .15s, background .15s, color .15s;
-  }
-  .play-badge button:hover{background:var(--accent);color:#191204;transform:scale(1.08);}
-  .play-badge .label{
-    position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
-    font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#fff;
-    background:rgba(11,14,20,0.65);padding:3px 9px;border-radius:12px;letter-spacing:0.02em;
-  }
+
   .tag-stamp{
     position:absolute;top:12px;left:12px;background:rgba(11,14,20,0.85);
     border:1px solid var(--border);color:var(--accent);
     font-family:'JetBrains Mono',monospace;font-size:11px;padding:4px 10px;
     border-radius:20px;letter-spacing:0.03em;text-transform:uppercase;
   }
+  .ribbon{
+    position:absolute;top:12px;right:12px;background:var(--accent);color:#191204;
+    font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
+    padding:4px 10px;border-radius:20px;letter-spacing:0.02em;
+  }
+  .video-badge{
+    position:absolute;bottom:10px;right:10px;
+    display:flex;align-items:center;gap:5px;
+    background:rgba(11,14,20,0.72);color:#fff;
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;
+    padding:4px 9px 4px 7px;border-radius:20px;
+  }
+  .video-badge svg{width:11px;height:11px;fill:var(--accent);}
+
   .card-body{padding:18px 18px 4px;flex:1;display:flex;flex-direction:column;}
   .card-body h3{font-size:16.5px;margin:0 0 8px;letter-spacing:-0.01em;line-height:1.3;}
 
   .card-foot{padding:12px 18px 20px;margin-top:auto;}
+  .price-row{display:flex;align-items:center;gap:8px;margin-bottom:2px;}
+  .price-old{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--muted-dim);text-decoration:line-through;}
+  .discount-pct{
+    font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--danger);
+    background:rgba(239,106,82,0.12);border:1px solid rgba(239,106,82,0.3);
+    padding:2px 7px;border-radius:12px;
+  }
   .price{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600;color:var(--text);margin:0 0 4px;}
   .price small{color:var(--muted-dim);font-size:11.5px;font-weight:500;display:block;font-family:'Inter',sans-serif;margin-top:2px;}
 
@@ -286,7 +287,7 @@
   .modal-overlay.open{display:flex;}
   .modal-box{
     background:var(--surface);border:1px solid var(--border);border-radius:16px;
-    max-width:560px;width:100%;max-height:88vh;overflow-y:auto;
+    max-width:600px;width:100%;max-height:90vh;overflow-y:auto;
     box-shadow:0 40px 80px -20px rgba(0,0,0,0.7);
     position:relative;
   }
@@ -296,14 +297,26 @@
   @keyframes modalIn{from{opacity:0;transform:translateY(10px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
   .modal-close{
     position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;
-    background:rgba(11,14,20,0.6);border:1px solid var(--border);color:var(--text);
+    background:rgba(11,14,20,0.75);border:1px solid var(--border);color:var(--text);
     display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;
     font-size:16px;line-height:1;transition:background .15s, border-color .15s;
   }
   .modal-close:hover{border-color:var(--accent);color:var(--accent);}
-  .modal-img{position:relative;aspect-ratio:16/10;background:var(--surface-2);border-radius:16px 16px 0 0;overflow:hidden;}
-  .modal-img img{width:100%;height:100%;object-fit:cover;}
-  .modal-img iframe,.modal-img video{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover;background:#000;}
+
+  /* full-size product image — never cropped */
+  .modal-img{
+    background:
+      repeating-conic-gradient(var(--surface-2) 0% 25%, var(--bg-alt) 0% 50%) 0 0 / 18px 18px;
+    background-color:var(--surface-2);
+    display:flex;align-items:center;justify-content:center;
+    padding:22px;border-radius:16px 16px 0 0;
+    border-bottom:1px solid var(--border-soft);
+  }
+  .modal-img img{
+    width:auto;height:auto;max-width:100%;max-height:62vh;
+    object-fit:contain;border-radius:6px;margin:0 auto;
+    box-shadow:0 12px 30px -12px rgba(0,0,0,0.5);
+  }
   .modal-body{padding:24px 26px 28px;}
   .modal-tag{
     display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);
@@ -311,39 +324,74 @@
     border-radius:20px;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:12px;
   }
   .modal-body h3{font-size:21px;margin:0 0 10px;letter-spacing:-0.01em;}
+  .modal-price-row{display:flex;align-items:center;gap:9px;margin-bottom:2px;}
   .modal-price{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:600;color:var(--text);margin-bottom:16px;}
   .modal-price small{display:block;color:var(--muted-dim);font-size:11.5px;font-weight:500;font-family:'Inter',sans-serif;margin-top:2px;}
-  .modal-section{margin-bottom:16px;}
+  .modal-section{margin-bottom:18px;}
   .modal-section .label{
     font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted-dim);
-    text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;display:block;
+    text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;display:block;
   }
   .modal-section p{margin:0;font-size:14.5px;color:var(--text);}
   .modal-why{
     font-size:14px;color:var(--text);background:var(--surface-2);border-left:2px solid var(--accent);
     padding:12px 14px;border-radius:0 8px 8px 0;margin:0;
   }
-  .modal-play-hint{
-    position:absolute;inset:0;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;
-    background:rgba(11,14,20,0.32);cursor:pointer;text-decoration:none;transition:background .15s;
-  }
-  .modal-play-hint:hover{background:rgba(11,14,20,0.5);}
-  .modal-play-hint button{
-    width:56px;height:56px;border-radius:50%;background:rgba(11,14,20,0.8);
-    border:1px solid rgba(255,255,255,0.28);color:var(--accent);font-size:18px;
-    cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0 0 0 3px;
-    transition:transform .15s, background .15s, color .15s;
-    pointer-events:none;
-  }
-  .modal-play-hint:hover button{background:var(--accent);color:#191204;transform:scale(1.08);}
-  .modal-play-hint .label{
-    font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#fff;
-    background:rgba(11,14,20,0.65);padding:4px 11px;border-radius:12px;letter-spacing:0.02em;
-  }
   .modal-buy-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
 
+  /* portrait 9:16 video frame — used in hero-adjacent product video previews */
+  .portrait-frame{
+    position:relative;width:100%;max-width:210px;aspect-ratio:9/16;margin:0 auto;
+    border-radius:16px;overflow:hidden;background:#000;border:1px solid var(--border);
+  }
+  .portrait-frame video{width:100%;height:100%;object-fit:cover;background:#000;}
+  .portrait-frame img{width:100%;height:100%;object-fit:cover;}
+  .portrait-frame.video-link{display:block;text-decoration:none;}
+  .portrait-play{
+    position:absolute;inset:0;display:flex;flex-direction:column;gap:9px;align-items:center;justify-content:center;
+    background:rgba(11,14,20,0.34);transition:background .15s;
+  }
+  .portrait-frame.video-link:hover .portrait-play{background:rgba(11,14,20,0.52);}
+  .portrait-play button{
+    width:48px;height:48px;border-radius:50%;background:rgba(11,14,20,0.82);
+    border:1px solid rgba(255,255,255,0.28);color:var(--accent);font-size:16px;
+    display:flex;align-items:center;justify-content:center;padding:0 0 0 3px;
+    pointer-events:none;transition:transform .15s, background .15s, color .15s;
+  }
+  .portrait-frame.video-link:hover .portrait-play button{background:var(--accent);color:#191204;transform:scale(1.08);}
+  .portrait-label{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#fff;
+    background:rgba(11,14,20,0.68);padding:3px 10px;border-radius:12px;letter-spacing:0.02em;
+  }
+
+  /* ---------- Floating WhatsApp button ---------- */
+  .wa-float{
+    position:fixed;right:20px;bottom:20px;z-index:60;
+    width:52px;height:52px;border-radius:50%;
+    background:var(--whatsapp);color:#05220f;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 14px 30px -10px rgba(0,0,0,0.65);
+    border:1px solid rgba(255,255,255,0.18);
+    transition:transform .15s;
+  }
+  .wa-float:hover{transform:scale(1.08);}
+  .wa-float svg{width:24px;height:24px;}
+
   /* ---------- Footer ---------- */
-  footer{border-top:1px solid var(--border-soft);padding:32px 0;background:var(--bg-alt);}
+  footer{border-top:1px solid var(--border-soft);padding:40px 0 32px;background:var(--bg-alt);}
+  .foot-social{
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;
+    padding-bottom:26px;margin-bottom:22px;border-bottom:1px solid var(--border-soft);
+  }
+  .foot-social-label{font-size:13.5px;color:var(--muted);}
+  .foot-social-icons{display:flex;gap:10px;}
+  .foot-social-btn{
+    display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text);
+    border:1px solid var(--border);border-radius:20px;padding:8px 14px;text-decoration:none;
+    transition:border-color .15s, color .15s, background .15s;
+  }
+  .foot-social-btn svg{width:15px;height:15px;}
+  .foot-social-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
   .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--muted);}
 </style>
 </head>
@@ -352,11 +400,14 @@
 <header>
   <div class="nav">
     <a href="#top" class="brand"><span class="dot"></span>KautsarVault</a>
-    <nav class="nav-links">
-      <a href="#kenapa">Kenapa KautsarVault?</a>
-      <a href="#video">Video Review</a>
+    <div class="nav-right">
+      <nav class="nav-links">
+        <a href="#kenapa">Kenapa KautsarVault?</a>
+        <a href="#video">Video Perkenalan</a>
+      </nav>
+      <div class="social-row" id="headerSocial" aria-label="Media sosial KautsarVault"></div>
       <a href="#produk" class="nav-count mono" id="navCount">— produk</a>
-    </nav>
+    </div>
   </div>
 </header>
 
@@ -373,16 +424,19 @@
         <div class="hero-stats">
           <div class="hero-stat"><b id="statTotal">—</b><span>Produk tersedia</span></div>
           <div class="hero-stat"><b id="statCat">—</b><span>Kategori</span></div>
-          <div class="hero-stat"><b>3</b><span>Marketplace resmi</span></div>
+          <div class="hero-stat"><b>4</b><span>Marketplace & sosial</span></div>
         </div>
       </div>
-      <div class="device" id="video">
-        <div class="device-screen" id="heroScreen">
-          <div class="device-placeholder">
-            <div class="ring">▶</div>
-            <span>Video perkenalan dari KautsarVault<br>segera tampil di sini</span>
+      <div id="video">
+        <div class="device">
+          <div class="device-screen" id="heroScreen">
+            <div class="device-placeholder">
+              <div class="ring">▶</div>
+              <span>Video perkenalan dari KautsarVault<br>segera tampil di sini</span>
+            </div>
           </div>
         </div>
+        <p class="device-caption">Video perkenalan singkat</p>
       </div>
     </div>
   </section>
@@ -405,7 +459,7 @@
         <div class="trust-card">
           <span class="num">RASIONAL</span>
           <h3>Ada ulasan singkat</h3>
-          <p>Tekan "Lihat Detail" pada tiap produk untuk membaca alasan kenapa produk itu layak dibeli.</p>
+          <p>Tekan gambar atau "Lihat Detail" pada tiap produk untuk membaca alasan kenapa produk itu layak dibeli.</p>
         </div>
       </div>
     </div>
@@ -422,7 +476,6 @@
         <span class="count-badge" id="countBadge">Memuat…</span>
       </div>
 
-      <!-- SEARCH BAR ELEMENT -->
       <div class="search-container">
         <span class="search-icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -455,10 +508,21 @@
   </div>
 </div>
 
+<!-- FLOATING WHATSAPP -->
+<a href="#" id="waFloat" class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.44 1.34 4.94L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2Zm0 18.18h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.36c0-4.53 3.69-8.22 8.24-8.22 2.2 0 4.27.86 5.82 2.41a8.17 8.17 0 0 1 2.41 5.82c0 4.53-3.69 8.21-8.23 8.21Zm4.5-6.15c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.16.24-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.04-.38-1.99-1.22-.73-.66-1.23-1.46-1.37-1.71-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.25-.42.08-.16.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31s-.86.85-.86 2.07.89 2.4 1.01 2.57c.12.16 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.16-.48-.28Z"/></svg>
+</a>
+
 <footer>
-  <div class="wrap foot-row">
-    <span><b style="color:var(--text)">KautsarVault</b> — Rekomendasi Elektronik, Alat Rumah Tangga, & Aksesoris.</span>
-    <span>Dikelola via Google Sheets · &copy; <span id="year"></span></span>
+  <div class="wrap">
+    <div class="foot-social">
+      <span class="foot-social-label">Ikuti update produk terbaru & tanya-tanya langsung lewat:</span>
+      <div class="foot-social-icons" id="footerSocial"></div>
+    </div>
+    <div class="foot-row">
+      <span><b style="color:var(--text)">KautsarVault</b> — Rekomendasi Elektronik, Alat Rumah Tangga, & Aksesoris.</span>
+      <span>Dikelola via Google Sheets · &copy; <span id="year"></span></span>
+    </div>
   </div>
 </footer>
 
@@ -470,33 +534,68 @@ const CONFIG = {
   // URL CSV dari Google Sheets
   SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSjmCt_Sl5o2FKf_RIz8Mc7n8g_4X64jfriw_ssDOsG_nh56stTE0e4bqjKVY-JzF5DLrN4nCIPpaKw/pub?output=csv",
 
-  // Nama file video lokal (.mp4) atau link langsung file MP4
-  HERO_VIDEO_URL: "intro.mp4"
+  // Nama file video lokal (.mp4) atau link langsung file MP4 — sebaiknya video portrait 9:16
+  HERO_VIDEO_URL: "intro.mp4",
+
+  // Ganti semua link di bawah ini dengan akun kamu sendiri
+  SOCIALS: {
+    shopee: "https://shopee.co.id/kautsarvault",
+    instagram: "https://instagram.com/kautsarvault",
+    whatsapp: "https://wa.me/6281234567890",
+    tiktok: "https://www.tiktok.com/@kautsarvault"
+  }
 };
 
 /* ============================================================
-   Data contoh (Mendukung link YouTube, Instagram, TikTok, Shopee/MP4)
+   Ikon media sosial (SVG generik, bukan logo resmi bermerek)
+   ============================================================ */
+const SOCIAL_ICONS = {
+  shopee: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l1 12H5L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>`,
+  instagram: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17.2" cy="6.8" r="1"/></svg>`,
+  whatsapp: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.44 1.34 4.94L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2Zm0 18.18h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.36c0-4.53 3.69-8.22 8.24-8.22 2.2 0 4.27.86 5.82 2.41a8.17 8.17 0 0 1 2.41 5.82c0 4.53-3.69 8.21-8.23 8.21Z"/></svg>`,
+  tiktok: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v9.5a3.5 3.5 0 1 1-2.5-3.36"/><path d="M14 4c.3 2 1.8 3.5 4 3.8"/></svg>`
+};
+const SOCIAL_LABELS = { shopee: "Shopee", instagram: "Instagram", whatsapp: "WhatsApp", tiktok: "TikTok" };
+
+function renderSocials(){
+  const compact = Object.keys(CONFIG.SOCIALS).map(key => `
+    <a class="social-btn" href="${escapeHtml(CONFIG.SOCIALS[key])}" target="_blank" rel="noopener noreferrer" aria-label="${SOCIAL_LABELS[key]}" title="${SOCIAL_LABELS[key]}">
+      ${SOCIAL_ICONS[key]}
+    </a>`).join("");
+  document.getElementById("headerSocial").innerHTML = compact;
+
+  const labeled = Object.keys(CONFIG.SOCIALS).map(key => `
+    <a class="foot-social-btn" href="${escapeHtml(CONFIG.SOCIALS[key])}" target="_blank" rel="noopener noreferrer">
+      ${SOCIAL_ICONS[key]}<span>${SOCIAL_LABELS[key]}</span>
+    </a>`).join("");
+  document.getElementById("footerSocial").innerHTML = labeled;
+
+  document.getElementById("waFloat").href = CONFIG.SOCIALS.whatsapp;
+}
+
+/* ============================================================
+   Data contoh (mendukung badge, diskon, dan video)
    ============================================================ */
 const DEMO_PRODUCTS = [
   {
-    nama: "Air Fryer Digital 4L Low Watt", kategori: "Rumah Tangga",
-    gambar: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=600&q=80",
-    harga: "499.000",
+    nama: "Air Fryer Digital 4L Low Watt", kategori: "Rumah Tangga", badge: "Terlaris",
+    gambar: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=800&q=80",
+    harga: "499.000", harga_asli: "649.000",
     deskripsi: "Mengoreng tanpa minyak, kapasitas pas untuk keluarga, daya hemat 650W.",
     alasan: "Memasak lebih sehat, wadah anti lengket dan sangat mudah dibersihkan.",
     video: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", tokopedia: "#", shopee: "#", tiktok: "#"
   },
   {
     nama: "Smart LED Bulb WiFi RGB 9W", kategori: "Elektronik",
-    gambar: "https://images.unsplash.com/photo-1550985616-10810253b84d?w=600&q=80",
+    gambar: "https://images.unsplash.com/photo-1550985616-10810253b84d?w=800&q=80",
     harga: "89.000",
     deskripsi: "Lampu pintar yang bisa diatur warna dan kecerahannya lewat HP / Google Assistant.",
     alasan: "Praktis untuk suasana kamar tidur atau ruang kerja, hemat energi.",
     video: "", tokopedia: "#", shopee: "#", tiktok: ""
   },
   {
-    nama: "TWS Pro Bass Wireless Earbuds", kategori: "Alat Elektronik",
-    gambar: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&q=80",
+    nama: "TWS Pro Bass Wireless Earbuds", kategori: "Alat Elektronik", badge: "Baru",
+    gambar: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&q=80",
     harga: "279.000",
     deskripsi: "Earbuds wireless suara jernih dengan bass tebal dan mikrofon jelas.",
     alasan: "Baterai awet hingga 24 jam dengan charging case, nyaman di telinga.",
@@ -504,7 +603,7 @@ const DEMO_PRODUCTS = [
   },
   {
     nama: "Stand Laptop Aluminium Ergonomis", kategori: "Aksesoris",
-    gambar: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=600&q=80",
+    gambar: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=800&q=80",
     harga: "125.000",
     deskripsi: "Penyangga laptop aluminium lipat dengan ketinggian yang dapat disesuaikan.",
     alasan: "Mencegah pegal leher saat bekerja seharian dan membuat sirkulasi udara laptop lancar.",
@@ -522,6 +621,10 @@ function formatHarga(h){
   return "Rp " + clean.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
+function toNumber(h){
+  return Number(String(h || "").replace(/[^0-9]/g,"")) || 0;
+}
+
 function escapeHtml(str){
   return String(str || "").replace(/[&<>"']/g, m => ({
     "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
@@ -534,8 +637,12 @@ function normalizeRow(row){
   return out;
 }
 
+function isDirectVideoFile(url){
+  return /\.(mp4|webm|mov|m4v)(\?.*)?$/i.test((url || "").trim());
+}
+
 /* ============================================================
-   Hero video (Autoplay Local MP4)
+   Hero video (portrait, autoplay, local MP4)
    ============================================================ */
 function renderHeroVideo(){
   const url = CONFIG.HERO_VIDEO_URL;
@@ -561,19 +668,40 @@ function buyButton(url, cls, label){
   return `<a class="buy-btn ${cls}" href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
 }
 
+function priceBlockCard(p){
+  const hargaAsli = (p.harga_asli || "").trim();
+  const hargaNow = formatHarga(p.harga);
+  if(!hargaAsli) return `<div class="price">${hargaNow}<small>harga di toko resmi</small></div>`;
+
+  const oldNum = toNumber(hargaAsli);
+  const newNum = toNumber(p.harga);
+  const pct = (oldNum > newNum && oldNum > 0) ? Math.round((1 - newNum / oldNum) * 100) : 0;
+
+  return `
+    <div class="price-row">
+      <span class="price-old">${formatHarga(hargaAsli)}</span>
+      ${pct > 0 ? `<span class="discount-pct">-${pct}%</span>` : ""}
+    </div>
+    <div class="price">${hargaNow}<small>harga di toko resmi</small></div>
+  `;
+}
+
 /* Kartu produk ringkas — deskripsi & alasan disembunyikan, tampil lewat modal "Lihat Detail" */
 function cardHtml(p, idx){
+  const hasVideo = !!(p.video || "").trim();
   return `
     <div class="card" data-kategori="${escapeHtml(p.kategori || 'Lainnya')}">
-      <div class="card-img">
+      <div class="card-img" data-idx="${idx}">
         <img src="${escapeHtml(p.gambar) || 'https://placehold.co/600x450/171d29/93a0b4?text=Produk'}" alt="${escapeHtml(p.nama)}" loading="lazy">
         ${p.kategori ? `<span class="tag-stamp">${escapeHtml(p.kategori)}</span>` : ""}
+        ${p.badge ? `<span class="ribbon">${escapeHtml(p.badge)}</span>` : ""}
+        ${hasVideo ? `<span class="video-badge"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7L8 5Z"/></svg>Video</span>` : ""}
       </div>
       <div class="card-body">
         <h3>${escapeHtml(p.nama)}</h3>
       </div>
       <div class="card-foot">
-        <div class="price">${formatHarga(p.harga)}<small>harga di toko resmi</small></div>
+        ${priceBlockCard(p)}
         <div class="action-row">
           <button type="button" class="detail-btn" data-idx="${idx}">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
@@ -698,28 +826,68 @@ function loadProducts(){
 }
 
 /* ============================================================
-   Modal Detail Produk
+   Modal Detail Produk — gambar full-size, video portrait 9:16
    ============================================================ */
 const modalOverlay = document.getElementById("modalOverlay");
 const modalContent = document.getElementById("modalContent");
 
-function openModal(p){
+function modalPriceBlock(p){
+  const hargaAsli = (p.harga_asli || "").trim();
+  const hargaNow = formatHarga(p.harga);
+  if(!hargaAsli) return `<div class="modal-price">${hargaNow}<small>harga di toko resmi</small></div>`;
+
+  const oldNum = toNumber(hargaAsli);
+  const newNum = toNumber(p.harga);
+  const pct = (oldNum > newNum && oldNum > 0) ? Math.round((1 - newNum / oldNum) * 100) : 0;
+
+  return `
+    <div class="modal-price-row">
+      <span class="price-old">${formatHarga(hargaAsli)}</span>
+      ${pct > 0 ? `<span class="discount-pct">-${pct}%</span>` : ""}
+    </div>
+    <div class="modal-price">${hargaNow}<small>harga di toko resmi</small></div>
+  `;
+}
+
+function videoSectionHtml(p){
   const rawVideo = (p.video || "").trim();
+  if(!rawVideo) return "";
+
+  if(isDirectVideoFile(rawVideo)){
+    return `
+      <div class="modal-section">
+        <span class="label">Video Produk</span>
+        <div class="portrait-frame">
+          <video src="${escapeHtml(rawVideo)}" controls playsinline preload="metadata"></video>
+        </div>
+      </div>`;
+  }
+
+  const thumb = escapeHtml(p.gambar) || 'https://placehold.co/450x800/171d29/93a0b4?text=Video';
+  return `
+    <div class="modal-section">
+      <span class="label">Video Produk</span>
+      <a class="portrait-frame video-link" href="${escapeHtml(rawVideo)}" target="_blank" rel="noopener noreferrer" aria-label="Tonton video promosi ${escapeHtml(p.nama)} di sumber aslinya">
+        <img src="${thumb}" alt="Video ${escapeHtml(p.nama)}">
+        <span class="portrait-play">
+          <button type="button" tabindex="-1">▶</button>
+          <span class="portrait-label">Tonton di sumber asli ↗</span>
+        </span>
+      </a>
+    </div>`;
+}
+
+function openModal(p){
   const img = escapeHtml(p.gambar) || 'https://placehold.co/600x450/171d29/93a0b4?text=Produk';
 
   modalContent.innerHTML = `
     <div class="modal-img">
       <img src="${img}" alt="${escapeHtml(p.nama)}">
-      ${rawVideo ? `
-        <a class="modal-play-hint" href="${escapeHtml(rawVideo)}" target="_blank" rel="noopener noreferrer" aria-label="Tonton video promosi ${escapeHtml(p.nama)} di sumber aslinya">
-          <button type="button" tabindex="-1">▶</button>
-          <span class="label">Tonton di sumber asli ↗</span>
-        </a>` : ""}
     </div>
     <div class="modal-body">
       ${p.kategori ? `<span class="modal-tag">${escapeHtml(p.kategori)}</span>` : ""}
       <h3>${escapeHtml(p.nama)}</h3>
-      <div class="modal-price">${formatHarga(p.harga)}<small>harga di toko resmi</small></div>
+      ${modalPriceBlock(p)}
 
       ${p.deskripsi ? `
       <div class="modal-section">
@@ -732,6 +900,8 @@ function openModal(p){
         <span class="label">Kenapa harus beli ini?</span>
         <p class="modal-why">${escapeHtml(p.alasan)}</p>
       </div>` : ""}
+
+      ${videoSectionHtml(p)}
 
       <div class="modal-section" style="margin-bottom:0;">
         <span class="label">Beli sekarang</span>
@@ -771,12 +941,12 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
 });
 
 /* ============================================================
-   Klik tombol "Lihat Detail" pada kartu produk
+   Klik gambar produk atau tombol "Lihat Detail" -> buka modal
    ============================================================ */
 document.getElementById("grid").addEventListener("click", (e) => {
-  const btn = e.target.closest(".detail-btn");
-  if(!btn) return;
-  const idx = Number(btn.dataset.idx);
+  const trigger = e.target.closest(".detail-btn, .card-img");
+  if(!trigger) return;
+  const idx = Number(trigger.dataset.idx);
   const product = ALL_PRODUCTS[idx];
   if(product) openModal(product);
 });
@@ -785,6 +955,7 @@ document.getElementById("grid").addEventListener("click", (e) => {
    Init
    ============================================================ */
 document.getElementById("year").textContent = new Date().getFullYear();
+renderSocials();
 renderHeroVideo();
 loadProducts();
 </script>
